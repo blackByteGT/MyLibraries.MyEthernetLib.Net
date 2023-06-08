@@ -15,10 +15,6 @@ namespace MyLibraries.MyEthernetLib.Classes
     {
         #region Items
         /// <summary>
-        /// Шлях до драйверу для Chrome
-        /// </summary>
-        private readonly string pathToChromeDriver;
-        /// <summary>
         /// Об'єкт класу IWebDriver
         /// </summary>
         private IWebDriver webDriver = null;
@@ -26,26 +22,72 @@ namespace MyLibraries.MyEthernetLib.Classes
         /// Посилання на сайт для парсингу
         /// </summary>
         private string url = default;
+        /// <summary>
+        /// Шлях до драйвера Chrome
+        /// </summary>
+        private string pathToChromeDriver;
+        /// <summary>
+        /// Назва файлу драйвера Chrome
+        /// </summary>
+        private string nameFileChromeDriver = default;
         #endregion Items
 
+        #region Constructors
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pathToChromeDriver">Шлях до драйвера. Використовується Chrome</param>
         /// <param name="url">Посилання на сайт для парсингу</param>
-        public MyWebParser(string pathToChromeDriver, string url)
+        /// <param name="pathToChromeDriver">Шлях до драйвера Chrome</param>
+        public MyWebParser(string url, string pathToChromeDriver)
         {
-            if (!File.Exists(pathToChromeDriver) || url == default)
-                throw new Exception(
-                    message: $"Немажливо створити об'єкт для парсингу з поточними параметрами: " +
-                        $"'Шлях до драйвера Chrome': '{pathToChromeDriver}', " +
-                        $"'Url': '{url}'. " +
-                        $"Перевірте коректність введених параметрів та спробуйте ще раз."
-                );
-
-            this.pathToChromeDriver = pathToChromeDriver;
-            this.url = url;
+            CheckReceivedDataForCreateMyWebParser(url, pathToChromeDriver);
+            SetMainItems(url, pathToChromeDriver);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url">Посилання на сайт для парсингу</param>
+        /// <param name="pathToChromeDriver">Шлях до драйвера Chrome</param>
+        /// <param name="nameFileChromeDriver">Назва файлу драйвера Chrome</param>
+        public MyWebParser(string url, string pathToChromeDriver, string nameFileChromeDriver)
+        {
+            CheckReceivedDataForCreateMyWebParser(url, pathToChromeDriver, nameFileChromeDriver, true);
+            SetMainItems(url, pathToChromeDriver, nameFileChromeDriver);
+        }
+        /// <summary>
+        /// Перевірити отримані дані для створення нового об'єкту MyWebParser. При помилці спрацьовує виключення, Exception
+        /// </summary>
+        /// <param name="url">Посилання на сайт для парсингу</param>
+        /// <param name="pathToChromeDriver">Шлях до драйвера Chrome</param>
+        /// <param name="nameFileChromeDriver">Назва файлу драйвера Chrome</param>
+        /// <param name="checkNameFileChromeDriver">Чи перевіряти назву файлу драйвера Chrome</param>
+        private void CheckReceivedDataForCreateMyWebParser(string url, string pathToChromeDriver, string nameFileChromeDriver = default, bool checkNameFileChromeDriver = false)
+        {
+            if (!Directory.Exists(pathToChromeDriver))
+                throw new Exception(message: $"Некоректно надано шлях до драйвера Chrome. Наданий шлях:'{pathToChromeDriver}'");
+            else if (url == default)
+                throw new Exception(message: $"Надано пустий url для парсингу!");
+            else if (checkNameFileChromeDriver)
+            {
+                if (nameFileChromeDriver == default)
+                    throw new Exception(message: "Надано порожню назву файлу драйвера Chrome!");
+                else if (!File.Exists($"{pathToChromeDriver}/{nameFileChromeDriver}"))
+                    throw new Exception(message: $"Файл з назвою '{nameFileChromeDriver}' за шляхом '{pathToChromeDriver}' не існує!");
+            }
+        }
+        /// <summary>
+        /// Встановити основні змінні
+        /// </summary>
+        /// <param name="url">Посилання на сайт для парсингу</param>
+        /// <param name="pathToChromeDriver">Шлях до драйвера Chrome</param>
+        /// <param name="nameFileChromeDriver">Назва файлу драйвера Chrome</param>
+        private void SetMainItems(string url, string pathToChromeDriver, string nameFileChromeDriver = default)
+        {
+            this.url = url;
+            this.pathToChromeDriver = pathToChromeDriver;
+            this.nameFileChromeDriver = nameFileChromeDriver;
+        }
+        #endregion Constructors
 
         #region Function
         #region Main functions
