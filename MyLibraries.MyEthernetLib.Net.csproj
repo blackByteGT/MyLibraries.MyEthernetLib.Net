@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>net5.0;net48</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>7.8.6.23</Version>
+    <Authors>Vladislav Rak</Authors>
+    <Product>MyEthernetLib</Product>
+    <Description>Library for interaction with the Internet</Description>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageProjectUrl>https://github.com/blackByteGT/MyLibraries.MyEthernetLib.Net</PackageProjectUrl>
+    <PackageTags>.NET</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>G:\Мій диск\Locker\Особисте\Important\Програмування\Мої бібліотеки\Класи бібліотек\MyLibraries.MyEthernetLib.Net\MyLibraries.MyEthernetLib.Net.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Selenium.WebDriver" Version="4.10.0" />
+  </ItemGroup>
+
+</Project>
