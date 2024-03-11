@@ -97,26 +97,25 @@ namespace MyLibraries.MyEthernetLib.Classes
         /// <param name="hideWindow">true - парсинг відбувається в режимі закритого клієнтського вікна, false - парсинг відбувається в режимі відкритого клієнтського вікна</param>
         public void Open(bool hideWindow = true)
         {
-            if (webDriver != null || url == default) return;
-
             #region Items
             ChromeDriverService service = ChromeDriverService.CreateDefaultService(pathToChromeDriver);
             ChromeOptions options = new ChromeOptions();
 
+            service.HideCommandPromptWindow = true;
+
             if (hideWindow)
             {
-                service.HideCommandPromptWindow = true;
                 options.AddArgument("headless");
             }
 
-            webDriver = new ChromeDriver(service, options);
+            WebDriver = new ChromeDriver(service, options);
             #endregion Items
 
-            webDriver.Navigate().GoToUrl(url);
+            WebDriver.Navigate().GoToUrl(url);
 
             if (!hideWindow)
             {
-                webDriver.Manage().Window.Maximize();
+                WebDriver.Manage().Window.Maximize();
 
                 Thread.Sleep(1000);
             }
